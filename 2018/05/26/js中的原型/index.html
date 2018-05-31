@@ -123,17 +123,17 @@
 
 
 
-<meta name="description" content="###原型    1.原型是个什么玩意儿：在构造函数创建出来的时候，系统会默认的帮构造函数创建并联一个神秘的函数。    原型默认的是一个空的对象    2.原型可以用来干什么：原型中的属性和方法  可以被使用该构造函数创建出来的对象使用    3.如何访问构造函数的原型：    构造函数.prototype    4如何给原型函数添加属性和方法 1Person.prototype.属性=属性值">
+<meta name="description" content="#js中的原型 原型 1.原型是个什么玩意儿：在构造函数创建出来的时候，系统会默认的帮构造函数创建并联一个神秘的函数。原型默认的是一个空的对象 2.原型可以用来干什么：原型中的属性和方法  可以被使用该构造函数创建出来的对象使用 3.如何访问构造函数的原型： 构造函数.prototype 4如何给原型函数添加属性和方法 1Person.prototype.属性=属性值      5.自己和原型都有">
 <meta property="og:type" content="article">
 <meta property="og:title" content="js中的原型">
 <meta property="og:url" content="http://yoursite.com/2018/05/26/js中的原型/index.html">
 <meta property="og:site_name" content="Lilinfei">
-<meta property="og:description" content="###原型    1.原型是个什么玩意儿：在构造函数创建出来的时候，系统会默认的帮构造函数创建并联一个神秘的函数。    原型默认的是一个空的对象    2.原型可以用来干什么：原型中的属性和方法  可以被使用该构造函数创建出来的对象使用    3.如何访问构造函数的原型：    构造函数.prototype    4如何给原型函数添加属性和方法 1Person.prototype.属性=属性值">
+<meta property="og:description" content="#js中的原型 原型 1.原型是个什么玩意儿：在构造函数创建出来的时候，系统会默认的帮构造函数创建并联一个神秘的函数。原型默认的是一个空的对象 2.原型可以用来干什么：原型中的属性和方法  可以被使用该构造函数创建出来的对象使用 3.如何访问构造函数的原型： 构造函数.prototype 4如何给原型函数添加属性和方法 1Person.prototype.属性=属性值      5.自己和原型都有">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-31T14:25:20.419Z">
+<meta property="og:updated_time" content="2018-05-31T14:57:30.200Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="js中的原型">
-<meta name="twitter:description" content="###原型    1.原型是个什么玩意儿：在构造函数创建出来的时候，系统会默认的帮构造函数创建并联一个神秘的函数。    原型默认的是一个空的对象    2.原型可以用来干什么：原型中的属性和方法  可以被使用该构造函数创建出来的对象使用    3.如何访问构造函数的原型：    构造函数.prototype    4如何给原型函数添加属性和方法 1Person.prototype.属性=属性值">
+<meta name="twitter:description" content="#js中的原型 原型 1.原型是个什么玩意儿：在构造函数创建出来的时候，系统会默认的帮构造函数创建并联一个神秘的函数。原型默认的是一个空的对象 2.原型可以用来干什么：原型中的属性和方法  可以被使用该构造函数创建出来的对象使用 3.如何访问构造函数的原型： 构造函数.prototype 4如何给原型函数添加属性和方法 1Person.prototype.属性=属性值      5.自己和原型都有">
 
 
 
@@ -363,14 +363,40 @@
       
 
       
-        <p>###原型<br>    1.原型是个什么玩意儿：在构造函数创建出来的时候，系统会默认的帮构造函数创建并联一个神秘的函数。    原型默认的是一个空的对象<br>    2.原型可以用来干什么：原型中的属性和方法  可以被使用该构造函数创建出来的对象使用<br>    3.如何访问构造函数的原型：<br>    构造函数.prototype<br>    4如何给原型函数添加属性和方法<br> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Person.prototype.属性=属性值</span><br></pre></td></tr></table></figure></p>
-<pre><code>5.自己和原型都有同一个属性，以自己的属性优先
-6.prototype是构造函数的属性，跟对象没有关系
-</code></pre><p>###使用原型注意事项<br>    1.使用对象访问属性的时候，如果在本身内找不到就会去原型中找，但是使用点语法进行属性赋值的时候，并不会去原型中进行查找。使用点语法赋值的时候，如果对象中不存在该属性，就会给该对象新增该属性<br>    2.如果在原型中的属性是引用类型的，那么  所有的对象共享该属性，并且一个对象修改了该引用类型属性的成员，所有对象都会被修改。<br>    3.一般情况下不会将属性放到原型对象中，一般情况下原型中只会放需要共享的方法<br>    如何访问原型：<br>        1、通过构造函数访问原型<br>···bash<br>Person.prototype;<br>···</p>
-<pre><code>2、通过对象访问原型
-    __proto__属性  是一个非标准的属性
-    p.__proto__;    不推荐使用  主要用来做调试  
-</code></pre>
+        <p>#js中的原型</p>
+<h3 id="原型"><a href="#原型" class="headerlink" title="原型"></a>原型</h3><blockquote>
+<p>1.原型是个什么玩意儿：在构造函数创建出来的时候，系统会默认的帮构造函数创建并联一个神秘的函数。原型默认的是一个空的对象</p>
+<p>2.原型可以用来干什么：原型中的属性和方法  可以被使用该构造函数创建出来的对象使用</p>
+<p>3.如何访问构造函数的原型： 构造函数.prototype</p>
+<p>4如何给原型函数添加属性和方法<br> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Person.prototype.属性=属性值</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>   5.自己和原型都有同一个属性，以自己的属性优先</p>
+<p>  6.prototype是构造函数的属性，跟对象没有关系</p>
+</blockquote>
+<p>###使用原型注意事项</p>
+<blockquote>
+<p>1.使用对象访问属性的时候，如果在本身内找不到就会去原型中找，但是使用点语法进行属性赋值的时候，并不会去原型中进行查找。使用点语法赋值的时候，如果对象中不存在该属性，就会给该对象新增该属性</p>
+<p>   2.如果在原型中的属性是引用类型的，那么  所有的对象共享该属性，并且一个对象修改了该引用类型属性的成员，所有对象都会被修改。</p>
+<p>3.一般情况下不会将属性放到原型对象中，一般情况下原型中只会放需要共享的方法</p>
+</blockquote>
+<blockquote>
+<p>如何访问原型：</p>
+<blockquote>
+<p>1、通过构造函数访问原型<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Person.prototype;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>2、通过对象访问原型<br><strong>proto</strong>属性  是一个非标准的属性<br>p.<strong>proto</strong>;    不推荐使用<br>主要用来做调试</p>
+</blockquote>
+<p>4.只有设置属性的操作，才不会去管原型中到底有没有该属性，只会在当前对象中找该属性，如果有 修改  如果没有 新增</p>
+<p>5.原型对象在创建出来的时候，会默认的有一个constructor指向对应的构造函数 Personprototype.constructor</p>
+<p>6.在使用新的对象替换默认的原型对象之后   原型对象中的constructor属性会变成object  为了保证整个   构造函数–原型–对象之间的关系的合理性  应做如下操作：在替换原型对象的时候，在新的原型对象中手动添加constructor属性</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Function Person（）&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Person. Prototype=&#123;</span><br><span class="line">Costructor:Person</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Console.log(Person.prototype.constructor);</span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -402,8 +428,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/22/hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
+              <a href="/2018/05/26/nodejs的特点/" rel="next" title="NodeJS的特点">
+                <i class="fa fa-chevron-left"></i> NodeJS的特点
               </a>
             
           </div>
@@ -411,10 +437,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/05/26/nodejs的特点/" rel="prev" title="NodeJS的特点">
-                NodeJS的特点 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -497,8 +519,17 @@ var jiathis_config={
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -544,6 +575,22 @@ var jiathis_config={
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#原型"><span class="nav-number">1.</span> <span class="nav-text">原型</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
