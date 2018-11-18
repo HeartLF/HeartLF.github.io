@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="DNS域名解析DNS解析的过程就是寻找哪台机器上有你所需要资源的过程。当你在浏览器上输入一段url地址时，如www.baidu.com，其实并不是百度完整的真正地址。互联网上的每一台计算机都有唯一标识是它的IP地址，但是IP地址并不方便记忆，用户更喜欢用方便记忆的网址去寻找互联网上的其他计算机。当浏览器拿到我们的域名之后然后通过我们设备内置的DNS处理模块去附近找最近的DNS服务器去查找该域名多对">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浏览器输入URL后做的事">
+<meta property="og:url" content="http://yoursite.com/2018/11/18/输入url到浏览器渲染的过程/index.html">
+<meta property="og:site_name" content="Lilinfei">
+<meta property="og:description" content="DNS域名解析DNS解析的过程就是寻找哪台机器上有你所需要资源的过程。当你在浏览器上输入一段url地址时，如www.baidu.com，其实并不是百度完整的真正地址。互联网上的每一台计算机都有唯一标识是它的IP地址，但是IP地址并不方便记忆，用户更喜欢用方便记忆的网址去寻找互联网上的其他计算机。当浏览器拿到我们的域名之后然后通过我们设备内置的DNS处理模块去附近找最近的DNS服务器去查找该域名多对">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="f:/笔记/图片/1426954698-5b8b656c643fc.png">
+<meta property="og:image" content="f:/笔记/图片/3992087537-5b8b65ee2be17.png">
+<meta property="og:image" content="f:/笔记/图片/3739029528-57d55e6ce8b6c.png">
+<meta property="og:image" content="f:/笔记/图片/3884439248-57f0f943c72f3.png">
+<meta property="og:image" content="f:/笔记/图片/1185311420-5b8b669b9a2b7.png">
+<meta property="og:image" content="f:/笔记/图片/775625205-57d4063b7b60d_articlex.png">
+<meta property="og:image" content="f:/笔记/图片/3426749863-57d54b4293001_articlex.png">
+<meta property="og:updated_time" content="2018-11-18T07:51:01.440Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浏览器输入URL后做的事">
+<meta name="twitter:description" content="DNS域名解析DNS解析的过程就是寻找哪台机器上有你所需要资源的过程。当你在浏览器上输入一段url地址时，如www.baidu.com，其实并不是百度完整的真正地址。互联网上的每一台计算机都有唯一标识是它的IP地址，但是IP地址并不方便记忆，用户更喜欢用方便记忆的网址去寻找互联网上的其他计算机。当浏览器拿到我们的域名之后然后通过我们设备内置的DNS处理模块去附近找最近的DNS服务器去查找该域名多对">
+<meta name="twitter:image" content="f:/笔记/图片/1426954698-5b8b656c643fc.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/11/18/输入url到浏览器渲染的过程/"/>
+
+
+
+
+
+  <title>浏览器输入URL后做的事 | Lilinfei</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?41fc030db57d5570dd22f78997dc4a7e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lilinfei</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/18/输入url到浏览器渲染的过程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lilinfei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lilinfei">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">浏览器输入URL后做的事</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-18T15:38:38+08:00">
+                2018-11-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="DNS域名解析"><a href="#DNS域名解析" class="headerlink" title="DNS域名解析"></a>DNS域名解析</h2><p>DNS解析的过程就是寻找哪台机器上有你所需要资源的过程。当你在浏览器上输入一段url地址时，如<a href="http://www.baidu.com，其实并不是百度完整的真正地址。互联网上的每一台计算机都有唯一标识是它的IP地址，但是IP地址并不方便记忆，用户更喜欢用方便记忆的网址去寻找互联网上的其他计算机。当浏览器拿到我们的域名之后然后通过我们设备内置的DNS处理模块去附近找最近的DNS服务器去查找该域名多对应的IP地址，如果找不到，就在其他的DNS服务器上查找，最终将找打的IP地址放到我们的请求头部，而不是我们的域名" target="_blank" rel="noopener">www.baidu.com，其实并不是百度完整的真正地址。互联网上的每一台计算机都有唯一标识是它的IP地址，但是IP地址并不方便记忆，用户更喜欢用方便记忆的网址去寻找互联网上的其他计算机。当浏览器拿到我们的域名之后然后通过我们设备内置的DNS处理模块去附近找最近的DNS服务器去查找该域名多对应的IP地址，如果找不到，就在其他的DNS服务器上查找，最终将找打的IP地址放到我们的请求头部，而不是我们的域名</a></p>
+<p>域名的查找过程：只要是根据域名的分级，一级一级的去找，这就是域名分级的作用<img src="F:\笔记\图片\1426954698-5b8b656c643fc.png" alt=""></p>
+<h2 id="TCP连接"><a href="#TCP连接" class="headerlink" title="TCP连接"></a>TCP连接</h2><p>客户端通过TCP传输协议建立到服务器的TCP连接。该过程称为三次握手<img src="F:\笔记\图片\3992087537-5b8b65ee2be17.png" alt=""></p>
+<ol>
+<li><p>先Clicent端发送连接，请求报文，让服务器知道我是来建立连接的</p>
+</li>
+<li><p>Server端接受到连接请求后返回ACK报文，并为此次连接分配资源，表示服务器知道你要发送数据，并且已经准备好接受数据</p>
+</li>
+<li><p>Clicent端接受到ACK报文后也向server端发送ACK报文，并分配资源，这样TCP连接就建立了，可以开始发送数据</p>
+<blockquote>
+<p>ACK是TCP数据包的序列号，在建立三次握手过程中，通信双方都会确定初始的序号X和Y，TCP每次传送的报文段中的序号字段值表示所要传送报文中的第一个字节的序号。TCP报文到达确认（ACK），是对接受到的数据的最好序列号的确定。例如，主机A发送的当前数据序号是400，数据长度是100，则接收端收到后会返回一个确认号是501的确认号给主机A。</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="发送HTTP请求"><a href="#发送HTTP请求" class="headerlink" title="发送HTTP请求"></a>发送HTTP请求</h2><p>发送HTTP请求的过程就是构建HTTP请求报文并通过TCP协议中发送到服务器指定端口。HTTP请求报文由三部分组成：请求行、请求头、请求征文</p>
+<h4 id="请求行"><a href="#请求行" class="headerlink" title="请求行"></a>请求行</h4><p>格式如下:<br><code>Method Request-URL HTTP-Version CRLF</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eg: GET index.html HTTP/1.1</span><br></pre></td></tr></table></figure>
+<p>常用的方法有: GET, POST, PUT, DELETE, OPTIONS, HEAD。</p>
+<h4 id="请求报头"><a href="#请求报头" class="headerlink" title="请求报头"></a>请求报头</h4><p>请求报头允许客户端向服务器传递请求的附加信息和客户端自身的信息。<br>PS: 客户端不一定特指浏览器，有时候也可使用Linux下的CURL命令以及HTTP客户端测试工具等。<br>常见的请求报头有: Accept, Accept-Charset, Accept-Encoding, Accept-Language, Content-Type, Authorization, Cookie, User-Agent等。</p>
+<p><img src="F:\笔记\图片\3739029528-57d55e6ce8b6c.png" alt=""></p>
+<p>上图是使用Chrome开发者工具截取的对百度的HTTP请求以及响应报文，从图中可以看出，请求报头中使用了Accept, Accept-Encoding, Accept-Language, Cache-Control, Connection, Cookie等字段。Accept用于指定客户端用于接受哪些类型的信息，Accept-Encoding与Accept类似，它用于指定接受的编码方式。Connection设置为Keep-alive用于告诉客户端本次HTTP请求结束之后并不需要关闭TCP连接，这样可以使下次HTTP请求使用相同的TCP通道，节省TCP连接建立的时间。</p>
+<h4 id="请求正文"><a href="#请求正文" class="headerlink" title="请求正文"></a>请求正文</h4><p>当使用POST, PUT等方法时，通常需要客户端向服务器传递数据。这些数据就储存在请求正文中。在请求包头中有一些与请求正文相关的信息，例如: 现在的Web应用通常采用Rest架构，请求的数据格式一般为json。这时就需要设置Content-Type: application/json。</p>
+<h2 id="服务器处理请求并返回HTTP报文"><a href="#服务器处理请求并返回HTTP报文" class="headerlink" title="服务器处理请求并返回HTTP报文"></a>服务器处理请求并返回HTTP报文</h2><p>自然而然这部分对应的就是后端工程师眼中的HTTP。后端从在固定的端口接收到TCP报文开始，这一部分对应于编程语言中的socket。它会对TCP连接进行处理，对HTTP协议进行解析，并按照报文格式进一步封装成HTTP Request对象，供上层使用。这一部分工作一般是由Web服务器去进行，我使用过的Web服务器有Tomcat, Jetty和Netty等等。</p>
+<p>HTTP响应报文也是由三部分组成: <strong>状态码</strong>, <strong>响应报头</strong>和<strong>响应报文</strong>。</p>
+<h4 id="状态码"><a href="#状态码" class="headerlink" title="状态码"></a>状态码</h4><p>状态码是由3位数组成，第一个数字定义了响应的类别，且有五种可能取值:</p>
+<ul>
+<li>1xx：指示信息–表示请求已接收，继续处理。</li>
+<li>2xx：成功–表示请求已被成功接收、理解、接受。</li>
+<li>3xx：重定向–要完成请求必须进行更进一步的操作。</li>
+<li>4xx：客户端错误–请求有语法错误或请求无法实现。</li>
+<li>5xx：服务器端错误–服务器未能实现合法的请求。<br>平时遇到比较常见的状态码有:200, 204, 301, 302, 304, 400, 401, 403, 404, 422, 500(分别表示什么请自行查找)。</li>
+</ul>
+<p>TODO:</p>
+<ul>
+<li>301和302有什么区别？</li>
+<li>HTTP缓存</li>
+</ul>
+<p><img src="F:\笔记\图片\3884439248-57f0f943c72f3.png" alt=""></p>
+<p>该图是本公司对状态码的一个总结，绘制而成的status code map，请大家参考。</p>
+<h4 id="响应报头"><a href="#响应报头" class="headerlink" title="响应报头"></a>响应报头</h4><p>常见的响应报头字段有: Server, Connection…。</p>
+<h4 id="响应报文"><a href="#响应报文" class="headerlink" title="响应报文"></a>响应报文</h4><p>服务器返回给浏览器的文本信息，通常HTML, CSS, JS, 图片等文件就放在这一部分。</p>
+<h2 id="断开连接"><a href="#断开连接" class="headerlink" title="断开连接"></a>断开连接</h2><p>等到数据发送完成，客户端会主动发送起断开连接，这个过程称为四次挥手<img src="F:\笔记\图片\1185311420-5b8b669b9a2b7.png" alt=""></p>
+<ol>
+<li>Clicent发送中断连接请求。也就是发送FIN（结束）报文。server端接受到FIN报文后，意思是说“我客户端没有数据发给你了”，但是如果你还有数据没有发送完成，就不要急着关闭（Socket），可以继续发送数据</li>
+<li>服务端发送ACK，“告诉客户端，你的请求我收到了，但是我还没有准备好，请继续等待我的消息”。这时候客户端进入FIN_WAIT状态，继续等待服务端的FIN报文</li>
+<li>当服务端确定数据已发送完成，则向客户端发送FIN报文，“告诉客户端，好了，我这边数据已经发送完了，准备关闭连接吧”</li>
+<li>客户端收到FIN报文后，“就知道可以关闭连接了，但是他还是不相信网络，怕服务端不知道要关闭，所以发送ACK后进入TIME_WAIT状态，如果Server端没有收到ACK则可以重传”。服务端接受到ACK后，“就知道可以断开连接了”。客户端等待2MSL后依然没有回复，则证明服务端一正常关闭，那还，客户端也可以关闭连接了。OK。TCP连接就这样关闭了</li>
+</ol>
+<h3 id="面向连接的TCP"><a href="#面向连接的TCP" class="headerlink" title="面向连接的TCP"></a>面向连接的<code>TCP</code></h3><p>TCP（Transmission Control Protocol，传输控制协议）是基于连接的协议，也就是说，在正式收发数据前，必须和对方建立可靠的连接。一个TCP连接必须要经过三次“对话”才能建立起来，其中的过程非常复杂，我们这里只做简单、形象的介绍，你只要做到能够理解这个过程即可。</p>
+<h3 id="面向非连接的UDP协议"><a href="#面向非连接的UDP协议" class="headerlink" title="面向非连接的UDP协议"></a>面向非连接的<code>UDP</code>协议</h3><p>“面向非连接”就是在正式通信前不必与对方先建立连接，不管对方状态就直接发送。与手机短信非常相似：你在发短信的时候，只需要输入对方手机号就OK了。<br>UDP（User Data Protocol，用户数据报协议）是与TCP相对应的协议。它是面向非连接的协议，它不与对方建立连接，而是直接就把数据包发送过去！</p>
+<h2 id="浏览器解析渲染页面"><a href="#浏览器解析渲染页面" class="headerlink" title="浏览器解析渲染页面"></a>浏览器解析渲染页面</h2><p><img src="F:\笔记\图片\775625205-57d4063b7b60d_articlex.png" alt=""></p>
+<p>浏览器是边解析边渲染的过程，首先浏览器解析HTML文件完成DOM树分构建，然后解析CSS文件，完成样式树。这两个都完成后进行渲染树的构建，渲染树构建完成后，浏览器开始布局渲染树并将其绘制到屏幕上。这个过程比较复杂，涉及到两个概念: reflow(回流)和repain(重绘)。DOM节点中的各个元素都是以盒模型的形式存在，这些都需要浏览器去计算其位置和大小等，这个过程称为relow;当盒模型的位置,大小以及其他属性，如颜色,字体,等确定下来之后，浏览器便开始绘制内容，这个过程称为repain。页面在首次加载时必然会经历reflow和repain。reflow和repain过程是非常消耗性能的，尤其是在移动设备上，它会破坏用户体验，有时会造成页面卡顿。所以我们应该尽可能少的减少reflow和repain。</p>
+<p><img src="F:\笔记\图片\3426749863-57d54b4293001_articlex.png" alt=""></p>
+<p>JS的解析是由浏览器中的JS解析引擎完成的。JS是单线程运行，也就是说，在同一个时间内只能做一件事，所有的任务都需要排队，前一个任务结束，后一个任务才能开始。但是又存在某些任务比较耗时，如IO读写等，所以需要一种机制可以先执行排在后面的任务，这就是：同步任务(synchronous)和异步任务(asynchronous)。JS的执行机制就可以看做是一个主线程加上一个任务队列(task queue)。同步任务就是放在主线程上执行的任务，异步任务是放在任务队列中的任务。所有的同步任务在主线程上执行，形成一个执行栈;异步任务有了运行结果就会在任务队列中放置一个事件；脚本运行时先依次运行执行栈，然后会从任务队列里提取事件，运行任务队列中的任务，这个过程是不断重复的，所以又叫做事件循环(Event loop)。</p>
+<p>浏览器在解析过程中，如果遇到请求外部资源时，如图像,iconfont,JS等。浏览器将重复以上过程下载该资源。请求过程是异步的，并不会影响HTML文档进行加载，但是当文档加载过程中遇到JS文件，HTML文档会挂起渲染过程，不仅要等到文档中JS文件加载完毕还要等待解析执行完毕，才会继续HTML的渲染过程。原因是因为JS有可能修改DOM结构，这就意味着JS执行完成前，后续所有资源的下载是没有必要的，这就是JS阻塞后续资源下载的根本原因。CSS文件的加载不影响JS文件的加载，但是却影响JS文件的执行。JS代码执行前浏览器必须保证CSS文件已经下载并加载完毕。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+  
+</div>
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/26/nodejs的特点/" rel="next" title="NodeJS的特点">
+                <i class="fa fa-chevron-left"></i> NodeJS的特点
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjg3Ny8xMzQxMw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="lilinfei" />
+            
+              <p class="site-author-name" itemprop="name">lilinfei</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS域名解析"><span class="nav-number">1.</span> <span class="nav-text">DNS域名解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP连接"><span class="nav-number">2.</span> <span class="nav-text">TCP连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发送HTTP请求"><span class="nav-number">3.</span> <span class="nav-text">发送HTTP请求</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#请求行"><span class="nav-number">3.0.1.</span> <span class="nav-text">请求行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#请求报头"><span class="nav-number">3.0.2.</span> <span class="nav-text">请求报头</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#请求正文"><span class="nav-number">3.0.3.</span> <span class="nav-text">请求正文</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务器处理请求并返回HTTP报文"><span class="nav-number">4.</span> <span class="nav-text">服务器处理请求并返回HTTP报文</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#状态码"><span class="nav-number">4.0.1.</span> <span class="nav-text">状态码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#响应报头"><span class="nav-number">4.0.2.</span> <span class="nav-text">响应报头</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#响应报文"><span class="nav-number">4.0.3.</span> <span class="nav-text">响应报文</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#断开连接"><span class="nav-number">5.</span> <span class="nav-text">断开连接</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#面向连接的TCP"><span class="nav-number">5.1.</span> <span class="nav-text">面向连接的TCP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#面向非连接的UDP协议"><span class="nav-number">5.2.</span> <span class="nav-text">面向非连接的UDP协议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器解析渲染页面"><span class="nav-number">6.</span> <span class="nav-text">浏览器解析渲染页面</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lilinfei</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<span><a href="/sitemap.xml">Google网站地图</a></span>
+&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<span><a href="/baidusitemap.xml">百度网站地图</a></span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+<script type="text/javascript" src="/js/src/love.js"></script>
+</html>
