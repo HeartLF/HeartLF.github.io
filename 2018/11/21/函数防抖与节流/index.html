@@ -132,7 +132,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="c:/Users/dell/AppData/Roaming/Typora/typora-user-images/1542778903391.png">
 <meta property="og:image" content="c:/Users/dell/AppData/Roaming/Typora/typora-user-images/1542779819064.png">
-<meta property="og:updated_time" content="2018-11-21T06:12:28.231Z">
+<meta property="og:updated_time" content="2018-11-21T06:15:11.608Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="函数防抖和节流">
 <meta name="twitter:description" content="函数防抖和节流什么是函数防抖和节流呢？函数防抖：在事件触发n秒后再执行回调函数，如果在这n秒期间又触发了函数，则重新记时  个人理解：函数防抖就是法师触发技能的时候要读条，技能读条没完再按技能就会重新读条。  函数节流：在规定的时间内，只能触发一次函数，如果这个规定时间内触发了多次函数，则只执行一次。  个人理解：函数节流就是fps游戏的射速，就算一直按着鼠标射击，也只会在规定的射速内射出子弹。">
@@ -375,8 +375,7 @@
 <p>个人理解：函数节流就是fps游戏的射速，就算一直按着鼠标射击，也只会在规定的射速内射出子弹。</p>
 </blockquote>
 <hr>
-<h2 id="函数节流（throttle）"><a href="#函数节流（throttle）" class="headerlink" title="函数节流（throttle）"></a>函数节流（throttle）</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>执行结果<img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\1542778903391.png" alt="1542778903391"></p>
+<h2 id="函数节流（throttle）"><a href="#函数节流（throttle）" class="headerlink" title="函数节流（throttle）"></a>函数节流（throttle）</h2><p>执行结果<img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\1542778903391.png" alt="1542778903391"></p>
 <p>如果回调函数中包含大量的DOM操作、循环操作或者网络请求等，那么会非常浪费资源。我们想让函数有规律的调用，但不要太频繁，而是没隔一段时间调用一次，这种实现流用到了函数节流。比如：我们可以让 scroll 中的回调函数每隔 500ms 调用一次，而不是每触发一次滚动就进行一次函数调用。</p>
 <p>实现函数节流需要这两个要素：</p>
 <ul>
