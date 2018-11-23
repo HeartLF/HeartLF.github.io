@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="深拷贝、浅拷贝堆和栈的区别其实深拷贝和浅拷贝的主要区别就是其在内存中的存储类型不同。 堆和栈都是内存中划分出来用来存储的区域。  栈（stack）为自动分配的内存空间，它由系统自动释放；而堆（heap）则是动态分配的内存，大小不定也不会自动释放。  ECMAScript 的数据类型在将深拷贝和浅拷贝之前，我们先来重新回顾一下 ECMAScript 中的数据类型。主要分为 基本数据类型（undefi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深拷贝、浅拷贝">
+<meta property="og:url" content="http://yoursite.com/2018/11/23/深拷贝、浅拷贝/index.html">
+<meta property="og:site_name" content="Lilinfei">
+<meta property="og:description" content="深拷贝、浅拷贝堆和栈的区别其实深拷贝和浅拷贝的主要区别就是其在内存中的存储类型不同。 堆和栈都是内存中划分出来用来存储的区域。  栈（stack）为自动分配的内存空间，它由系统自动释放；而堆（heap）则是动态分配的内存，大小不定也不会自动释放。  ECMAScript 的数据类型在将深拷贝和浅拷贝之前，我们先来重新回顾一下 ECMAScript 中的数据类型。主要分为 基本数据类型（undefi">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2017/9/3/6fb2c3d13d830efc6ae07ac368df0816?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2017/9/3/a32ee86b9f3e303216d19240441cedfd?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2017/9/3/8d973a9718da1806d19db0c1541ff425?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2017/9/3/01dad9dc00fb0efe81d9bcbe9d30a1bd?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/719506-749bc3b0ad0de93c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/825/format/webp">
+<meta property="og:updated_time" content="2018-11-23T07:04:17.543Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深拷贝、浅拷贝">
+<meta name="twitter:description" content="深拷贝、浅拷贝堆和栈的区别其实深拷贝和浅拷贝的主要区别就是其在内存中的存储类型不同。 堆和栈都是内存中划分出来用来存储的区域。  栈（stack）为自动分配的内存空间，它由系统自动释放；而堆（heap）则是动态分配的内存，大小不定也不会自动释放。  ECMAScript 的数据类型在将深拷贝和浅拷贝之前，我们先来重新回顾一下 ECMAScript 中的数据类型。主要分为 基本数据类型（undefi">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2017/9/3/6fb2c3d13d830efc6ae07ac368df0816?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/11/23/深拷贝、浅拷贝/"/>
+
+
+
+
+
+  <title>深拷贝、浅拷贝 | Lilinfei</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?41fc030db57d5570dd22f78997dc4a7e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lilinfei</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/23/深拷贝、浅拷贝/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lilinfei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lilinfei">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">深拷贝、浅拷贝</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-23T13:05:45+08:00">
+                2018-11-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="深拷贝、浅拷贝"><a href="#深拷贝、浅拷贝" class="headerlink" title="深拷贝、浅拷贝"></a>深拷贝、浅拷贝</h1><h1 id="堆和栈的区别"><a href="#堆和栈的区别" class="headerlink" title="堆和栈的区别"></a>堆和栈的区别</h1><p>其实深拷贝和浅拷贝的主要区别就是其在内存中的存储类型不同。</p>
+<p>堆和栈都是内存中划分出来用来存储的区域。</p>
+<blockquote>
+<p>栈（stack）为自动分配的内存空间，它由系统自动释放；而堆（heap）则是动态分配的内存，大小不定也不会自动释放。</p>
+</blockquote>
+<h1 id="ECMAScript-的数据类型"><a href="#ECMAScript-的数据类型" class="headerlink" title="ECMAScript 的数据类型"></a>ECMAScript 的数据类型</h1><p>在将深拷贝和浅拷贝之前，我们先来重新回顾一下 ECMAScript 中的数据类型。主要分为</p>
+<h2 id="基本数据类型（undefined，boolean，number，string，null）"><a href="#基本数据类型（undefined，boolean，number，string，null）" class="headerlink" title="基本数据类型（undefined，boolean，number，string，null）"></a>基本数据类型（<code>undefined，boolean，number，string，null</code>）</h2><p>基本数据类型主要是：<code>undefined，boolean，number，string，null</code>。</p>
+<h3 id="基本数据类型存放在栈中"><a href="#基本数据类型存放在栈中" class="headerlink" title="基本数据类型存放在栈中"></a>基本数据类型存放在栈中</h3><p>存放在栈内存中的简单数据段，数据大小确定，内存空间大小可以分配，是直接按值存放的，所以可以直接访问。</p>
+<h3 id="基本数据类型值不可变"><a href="#基本数据类型值不可变" class="headerlink" title="基本数据类型值不可变"></a>基本数据类型值不可变</h3><blockquote>
+<p>javascript中的原始值（undefined、null、布尔值、数字和字符串）与对象（包括数组和函数）有着根本区别。原始值是不可更改的：任何方法都无法更改（或“突变”）一个原始值。对数字和布尔值来说显然如此 —— 改变数字的值本身就说不通，而对字符串来说就不那么明显了，因为字符串看起来像由字符组成的数组，我们期望可以通过指定索引来假改字符串中的字符。实际上，javascript 是禁止这样做的。<strong>字符串中所有的方法看上去返回了一个修改后的字符串，实际上返回的是一个新的字符串值</strong>。</p>
+</blockquote>
+<p>基本数据类型的值是不可变的，动态修改了基本数据类型的值，它的原始值也是不会改变的，例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str = <span class="string">"abc"</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(str[<span class="number">1</span>]=<span class="string">"f"</span>);    <span class="comment">// f</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(str);           <span class="comment">// abc</span></span><br></pre></td></tr></table></figure>
+<p>这一点其实开始我是比较迷惑的，总是感觉 js 是一个灵活的语言，任何值应该都是可变的，真是图样图森破，我们通常情况下都是对一个变量重新赋值，而不是改变基本数据类型的值。就如上述引用所说的那样，在 js 中没有方法是可以改变布尔值和数字的。倒是有很多操作字符串的方法，但是这些方法都是返回一个新的字符串，并没有改变其原有的数据。</p>
+<p>所以，记住这一点：<strong>基本数据类型值不可变</strong>。</p>
+<h3 id="基本类型的比较是值的比较"><a href="#基本类型的比较是值的比较" class="headerlink" title="基本类型的比较是值的比较"></a>基本类型的比较是值的比较</h3><p>基本类型的比较是值的比较，只要它们的值相等就认为他们是相等的，例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="number">1</span>;</span><br><span class="line"><span class="built_in">console</span>.log(a === b);</span><br></pre></td></tr></table></figure>
+<p>比较的时候最好使用严格等，因为 <code>==</code> 是会进行类型转换的，比如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="literal">true</span>;</span><br><span class="line"><span class="built_in">console</span>.log(a == b);</span><br></pre></td></tr></table></figure>
+<h2 id="引用类型"><a href="#引用类型" class="headerlink" title="引用类型"></a>引用类型</h2><h3 id="引用类型存放在堆中"><a href="#引用类型存放在堆中" class="headerlink" title="引用类型存放在堆中"></a>引用类型存放在堆中</h3><p>引用类型（<code>object</code>）是存放在堆内存中的，变量实际上是一个存放在栈内存的指针，这个指针指向堆内存中的地址。每个空间大小不一样，要根据情况开进行特定的分配，例如。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person1 = &#123;<span class="attr">name</span>:<span class="string">'jozo'</span>&#125;;</span><br><span class="line"><span class="keyword">var</span> person2 = &#123;<span class="attr">name</span>:<span class="string">'xiaom'</span>&#125;;</span><br><span class="line"><span class="keyword">var</span> person3 = &#123;<span class="attr">name</span>:<span class="string">'xiaoq'</span>&#125;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://user-gold-cdn.xitu.io/2017/9/3/6fb2c3d13d830efc6ae07ac368df0816?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="堆内存">堆内存</p>
+<h3 id="引用类型值可变"><a href="#引用类型值可变" class="headerlink" title="引用类型值可变"></a>引用类型值可变</h3><p>引用类型是可以直接改变其值的，例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line">a[<span class="number">1</span>] = <span class="number">5</span>;</span><br><span class="line"><span class="built_in">console</span>.log(a[<span class="number">1</span>]); <span class="comment">// 5</span></span><br></pre></td></tr></table></figure>
+<h3 id="引用类型的比较是引用的比较"><a href="#引用类型的比较是引用的比较" class="headerlink" title="引用类型的比较是引用的比较"></a>引用类型的比较是引用的比较</h3><p>所以每次我们对 js 中的引用类型进行操作的时候，都是操作其对象的引用（保存在栈内存中的指针），所以比较两个引用类型，是看其的引用是否指向同一个对象。例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line"><span class="keyword">var</span> b = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line"><span class="built_in">console</span>.log(a === b); <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<p>虽然变量 a 和变量 b 都是表示一个内容为 1，2，3 的数组，但是其在内存中的位置不一样，也就是说变量 a 和变量 b 指向的不是同一个对象，所以他们是不相等的。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2017/9/3/a32ee86b9f3e303216d19240441cedfd?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="引用类型在内存中的存储">引用类型在内存中的存储</p>
+<p>（懒癌晚期，不想自己画图了，直接盗图）</p>
+<h2 id="传值与传址"><a href="#传值与传址" class="headerlink" title="传值与传址"></a>传值与传址</h2><p>了解了基本数据类型与引用类型的区别之后，我们就应该能明白传值与传址的区别了。<br>在我们进行赋值操作的时候，基本数据类型的赋值（=）是在内存中新开辟一段栈内存，然后再把再将值赋值到新的栈中。例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">var</span> b = a;</span><br><span class="line"></span><br><span class="line">a ++ ;</span><br><span class="line"><span class="built_in">console</span>.log(a); <span class="comment">// 11</span></span><br><span class="line"><span class="built_in">console</span>.log(b); <span class="comment">// 10</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://user-gold-cdn.xitu.io/2017/9/3/8d973a9718da1806d19db0c1541ff425?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="基本数据类型的赋值">基本数据类型的赋值</p>
+<p>所以说，基本类型的赋值的两个变量是两个独立相互不影响的变量。</p>
+<p>但是引用类型的赋值是传址。只是改变指针的指向，例如，也就是说引用类型的赋值是对象保存在栈中的地址的赋值，这样的话两个变量就指向同一个对象，因此两者之间操作互相有影响。例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = &#123;&#125;; <span class="comment">// a保存了一个空对象的实例</span></span><br><span class="line"><span class="keyword">var</span> b = a;  <span class="comment">// a和b都指向了这个空对象</span></span><br><span class="line"></span><br><span class="line">a.name = <span class="string">'jozo'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(a.name); <span class="comment">// 'jozo'</span></span><br><span class="line"><span class="built_in">console</span>.log(b.name); <span class="comment">// 'jozo'</span></span><br><span class="line"></span><br><span class="line">b.age = <span class="number">22</span>;</span><br><span class="line"><span class="built_in">console</span>.log(b.age);<span class="comment">// 22</span></span><br><span class="line"><span class="built_in">console</span>.log(a.age);<span class="comment">// 22</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(a == b);<span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://user-gold-cdn.xitu.io/2017/9/3/01dad9dc00fb0efe81d9bcbe9d30a1bd?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="引用类型的赋值">引用类型的赋值</p>
+<h1 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h1><p>在深入了解之前，我认为上面的赋值就是浅拷贝，哇哈哈，真的是图样图森破。上面那个应该只能算是“引用”，并不算是真正的浅拷贝。<br>一下部分参照知乎中的提问： <a href="https://link.juejin.im?target=https%3A%2F%2Fwww.zhihu.com%2Fquestion%2F23031215" target="_blank" rel="noopener">javascript中的深拷贝和浅拷贝</a></p>
+<h2 id="赋值（-）和浅拷贝的区别"><a href="#赋值（-）和浅拷贝的区别" class="headerlink" title="赋值（=）和浅拷贝的区别"></a>赋值（=）和浅拷贝的区别</h2><p>那么赋值和浅拷贝有什么区别呢，我们看下面这个例子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj1 = &#123;</span><br><span class="line">    <span class="string">'name'</span> : <span class="string">'zhangsan'</span>,</span><br><span class="line">    <span class="string">'age'</span> :  <span class="string">'18'</span>,</span><br><span class="line">    <span class="string">'language'</span> : [<span class="number">1</span>,[<span class="number">2</span>,<span class="number">3</span>],[<span class="number">4</span>,<span class="number">5</span>]],</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> obj2 = obj1;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> obj3 = shallowCopy(obj1);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shallowCopy</span>(<span class="params">src</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> dst = &#123;&#125;;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> prop <span class="keyword">in</span> src) &#123;</span><br><span class="line">        <span class="keyword">if</span> (src.hasOwnProperty(prop)) &#123;</span><br><span class="line">            dst[prop] = src[prop];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dst;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">obj2.name = <span class="string">"lisi"</span>;</span><br><span class="line">obj3.age = <span class="string">"20"</span>;</span><br><span class="line"></span><br><span class="line">obj2.language[<span class="number">1</span>] = [<span class="string">"二"</span>,<span class="string">"三"</span>];</span><br><span class="line">obj3.language[<span class="number">2</span>] = [<span class="string">"四"</span>,<span class="string">"五"</span>];</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(obj1);  </span><br><span class="line"><span class="comment">//obj1 = &#123;</span></span><br><span class="line"><span class="comment">//    'name' : 'lisi',</span></span><br><span class="line"><span class="comment">//    'age' :  '18',</span></span><br><span class="line"><span class="comment">//    'language' : [1,["二","三"],["四","五"]],</span></span><br><span class="line"><span class="comment">//&#125;;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(obj2);</span><br><span class="line"><span class="comment">//obj2 = &#123;</span></span><br><span class="line"><span class="comment">//    'name' : 'lisi',</span></span><br><span class="line"><span class="comment">//    'age' :  '18',</span></span><br><span class="line"><span class="comment">//    'language' : [1,["二","三"],["四","五"]],</span></span><br><span class="line"><span class="comment">//&#125;;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(obj3);</span><br><span class="line"><span class="comment">//obj3 = &#123;</span></span><br><span class="line"><span class="comment">//    'name' : 'zhangsan',</span></span><br><span class="line"><span class="comment">//    'age' :  '20',</span></span><br><span class="line"><span class="comment">//    'language' : [1,["二","三"],["四","五"]],</span></span><br><span class="line"><span class="comment">//&#125;;</span></span><br></pre></td></tr></table></figure>
+<p>先定义个一个原始的对象 <code>obj1</code>，然后使用赋值得到第二个对象 <code>obj2</code>，然后通过浅拷贝，将 <code>obj1</code> 里面的属性都赋值到 <code>obj3</code> 中。也就是说：</p>
+<ul>
+<li><code>obj1</code>：原始数据</li>
+<li><code>obj2</code>：赋值操作得到</li>
+<li><code>obj3</code>：浅拷贝得到</li>
+</ul>
+<p>然后我们改变 <code>obj2</code> 的 <code>name</code> 属性和 <code>obj3</code> 的 <code>name</code> 属性，可以看到，改变赋值得到的对象 <code>obj2</code> 同时也会改变原始值 <code>obj1</code>，而改变浅拷贝得到的的 <code>obj3</code> 则不会改变原始对象 <code>obj1</code>。这就可以说明赋值得到的对象 <code>obj2</code> 只是将指针改变，其引用的仍然是同一个对象，而浅拷贝得到的的 <code>obj3</code> 则是重新创建了新对象。</p>
+<p>然而，我们接下来来看一下改变引用类型会是什么情况呢，我又改变了赋值得到的对象 <code>obj2</code> 和浅拷贝得到的 <code>obj3</code> 中的 <code>language</code> 属性的第二个值和第三个值（<code>language</code> 是一个数组，也就是引用类型）。结果见输出，可以看出来，无论是修改赋值得到的对象 <code>obj2</code> 和浅拷贝得到的 <code>obj3</code> 都会改变原始数据。</p>
+<p>这是因为浅拷贝只复制一层对象的属性，并不包括对象里面的为引用类型的数据。所以就会出现改变浅拷贝得到的 <code>obj3</code> 中的引用类型时，会使原始数据得到改变。</p>
+<p>深拷贝：将 B 对象拷贝到 A 对象中，包括 B 里面的子对象，</p>
+<p>浅拷贝：将 B 对象拷贝到 A 对象中，但不包括 B 里面的子对象</p>
+<table>
+<thead>
+<tr>
+<th>–</th>
+<th>和原数据是否指向同一对象</th>
+<th>第一层数据为基本数据类型</th>
+<th>原数据中包含子对象</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>赋值</td>
+<td>是</td>
+<td>改变会使原数据一同改变</td>
+<td>改变会使原数据一同改变</td>
+</tr>
+<tr>
+<td>浅拷贝</td>
+<td>否</td>
+<td>改变<strong>不</strong>会使原数据一同改变</td>
+<td>改变会使原数据一同改变</td>
+</tr>
+<tr>
+<td>深拷贝</td>
+<td>否</td>
+<td>改变<strong>不</strong>会使原数据一同改变</td>
+<td>改变<strong>不</strong>会使原数据一同改变</td>
+</tr>
+</tbody>
+</table>
+<p>ES6出来后，新增了<strong>Object.assign</strong> 用来复制对象，嗯~~~来试试</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123; <span class="attr">name</span>: <span class="string">'程序猿'</span>, <span class="attr">age</span>:&#123;<span class="attr">child</span>: <span class="number">12</span>&#125; &#125;</span><br><span class="line"><span class="keyword">let</span> copy = <span class="built_in">Object</span>.assign(&#123;&#125;, obj);</span><br><span class="line">copy.name = <span class="string">'单身狗'</span></span><br><span class="line">copy.age.child = <span class="number">24</span></span><br><span class="line"><span class="built_in">console</span>.log(obj) <span class="comment">// &#123; name: '程序猿', age:&#123;child: 24&#125; &#125;  当用来修改的属性包含对象时就会统一改变。</span></span><br></pre></td></tr></table></figure>
+<p>嗯~~~不错，程序猿还没变成单身狗，纳尼child怎么变成24了，我怕是用了假的ES6吧<br> 查了查MDN，才发现自己对Object.assign的一点都不了解，就乱用，真是自己作死</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/719506-749bc3b0ad0de93c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/825/format/webp" alt="img"></p>
+<p>20170319112551.png</p>
+<p>简单说就是如果拷贝的对象的属性值也是一个引用（对象），就只会把引用给拷贝过来。而且这货用的最多的地方不是浅拷贝而是将多个对象的属性合并到一个对象上</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.assign( target, obj1, obj2 )</span><br></pre></td></tr></table></figure>
+<p>第一个参数是目标对象，后面的都是源对象，将源对象的属性复制到目标对象中</p>
+<p>当然我们也可以通过展开运算符（…）来解决</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = &#123;</span><br><span class="line">    age: <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> b = &#123;...a&#125;</span><br><span class="line">a.age = <span class="number">2</span></span><br><span class="line"><span class="built_in">console</span>.log(b.age) <span class="comment">// 1</span></span><br></pre></td></tr></table></figure>
+<h1 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h1><p>看了这么半天，你也应该清楚什么是深拷贝了吧，如果还不清楚，我就剖腹自尽(ಥ_ಥ)</p>
+<p>深拷贝是对对象以及对象的所有子对象进行拷贝。</p>
+<p>那么问题来了，怎么进行深拷贝呢？</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">           <span class="string">'name'</span>: <span class="string">'xiaoming'</span>,</span><br><span class="line">           <span class="string">'age'</span>: <span class="number">18</span>,</span><br><span class="line">           <span class="string">'message'</span>: [&#123;</span><br><span class="line">               <span class="string">'name'</span>: <span class="string">'xiaoming2'</span>,</span><br><span class="line">               <span class="string">'age'</span>: <span class="number">19</span>,</span><br><span class="line">           &#125;, &#123;</span><br><span class="line">               <span class="string">'name'</span>: <span class="string">'xiaoming3'</span>,</span><br><span class="line">               <span class="string">'age'</span>: <span class="number">20</span>,</span><br><span class="line">           &#125;]</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="keyword">let</span> obj1 = cloneDeep(obj);</span><br><span class="line">       <span class="keyword">let</span> obj2 = obj;</span><br><span class="line">       obj.name = <span class="string">'xiaowang'</span>;</span><br><span class="line">       obj.message[<span class="number">0</span>].age = <span class="number">10</span>; <span class="comment">//obj=&#123;name:'xiaowang',age:18,message:[&#123;name:'xiaoming2',age:10&#125;,&#123;name:'xiaoming3',age:100&#125;]&#125;</span></span><br><span class="line">       obj2.message[<span class="number">1</span>].age = <span class="number">100</span>;<span class="comment">//obj=&#123;name:'xiaowang',age:18,message:[&#123;name:'xiaoming2',age:10&#125;,&#123;name:'xiaoming3',age:100&#125;]&#125;</span></span><br><span class="line">       obj1.message[<span class="number">0</span>].age = <span class="number">200</span>;</span><br><span class="line">       obj1.name = <span class="string">'hua'</span>;    <span class="comment">//obj1=&#123;name:'hua',age:18,message:[&#123;name:'xiaoming2',age:200&#125;,&#123;name:'xiaoming3',age:20&#125;]&#125;</span></span><br><span class="line">       <span class="built_in">console</span>.log(obj, obj2, obj1);</span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">cloneDeep</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line">           <span class="keyword">if</span> (<span class="keyword">typeof</span> obj !== <span class="string">'object'</span> || <span class="built_in">Object</span>.keys(obj).length === <span class="number">0</span>) &#123;</span><br><span class="line">               <span class="keyword">return</span> obj</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">let</span> info = &#123;&#125;;</span><br><span class="line">           <span class="keyword">for</span> (key <span class="keyword">in</span> obj) &#123;</span><br><span class="line">               <span class="keyword">if</span> (<span class="keyword">typeof</span> obj[key] == <span class="string">'object'</span> &amp;&amp; <span class="built_in">Object</span>.keys(obj[key].length &gt; <span class="number">0</span>)) &#123;</span><br><span class="line">                   info[key] = cloneDeep(obj[key])</span><br><span class="line">               &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                   info[key] = obj[key]</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">return</span> info;</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+<p>还有一种简单的方法:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> h = <span class="built_in">JSON</span>.parse(<span class="built_in">JSON</span>.stringify(obj));</span><br></pre></td></tr></table></figure>
+<p>这里是将对象转化为json字符串又转换为json对象，之前什么引用的全变了样儿，<strong>不过弊端也是有的，继承的属性会丢失</strong></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+  
+</div>
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/22/网格布局/" rel="next" title="Grid布局">
+                <i class="fa fa-chevron-left"></i> Grid布局
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjg3Ny8xMzQxMw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="lilinfei" />
+            
+              <p class="site-author-name" itemprop="name">lilinfei</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#深拷贝、浅拷贝"><span class="nav-number">1.</span> <span class="nav-text">深拷贝、浅拷贝</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#堆和栈的区别"><span class="nav-number">2.</span> <span class="nav-text">堆和栈的区别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ECMAScript-的数据类型"><span class="nav-number">3.</span> <span class="nav-text">ECMAScript 的数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本数据类型（undefined，boolean，number，string，null）"><span class="nav-number">3.1.</span> <span class="nav-text">基本数据类型（undefined，boolean，number，string，null）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本数据类型存放在栈中"><span class="nav-number">3.1.1.</span> <span class="nav-text">基本数据类型存放在栈中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本数据类型值不可变"><span class="nav-number">3.1.2.</span> <span class="nav-text">基本数据类型值不可变</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本类型的比较是值的比较"><span class="nav-number">3.1.3.</span> <span class="nav-text">基本类型的比较是值的比较</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用类型"><span class="nav-number">3.2.</span> <span class="nav-text">引用类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#引用类型存放在堆中"><span class="nav-number">3.2.1.</span> <span class="nav-text">引用类型存放在堆中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用类型值可变"><span class="nav-number">3.2.2.</span> <span class="nav-text">引用类型值可变</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用类型的比较是引用的比较"><span class="nav-number">3.2.3.</span> <span class="nav-text">引用类型的比较是引用的比较</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#传值与传址"><span class="nav-number">3.3.</span> <span class="nav-text">传值与传址</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#浅拷贝"><span class="nav-number">4.</span> <span class="nav-text">浅拷贝</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#赋值（-）和浅拷贝的区别"><span class="nav-number">4.1.</span> <span class="nav-text">赋值（=）和浅拷贝的区别</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#深拷贝"><span class="nav-number">5.</span> <span class="nav-text">深拷贝</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lilinfei</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<span><a href="/sitemap.xml">Google网站地图</a></span>
+&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<span><a href="/baidusitemap.xml">百度网站地图</a></span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+<script type="text/javascript" src="/js/src/love.js"></script>
+</html>
